@@ -32,7 +32,7 @@ def build_context(points):
         blocks.append(f"[{cid}]\n{txt}")
     return "\n\n".join(blocks)
 
-def main():
+def ask_query(question: str) -> dict:
     if not OPENAI_API_KEY:
         raise RuntimeError("Missing OPENAI_API_KEY")
 
@@ -91,9 +91,12 @@ def main():
 
     append_run(run)
 
-    print("ANSWER:\n")
-    print(answer)
-    print("\nRUN LOGGED:", run_id)
+    return {
+        "answer": answer,
+        "retrieved_chunk_ids": retrieved_ids,
+        "elapsed_sec": round(t1 - t0, 3),
+    }
 
 if __name__ == "__main__":
-    main()
+    res = ask_query("What is Qdrant and how does it store vectors?")
+    print(res["answer"])

@@ -1,0 +1,5 @@
+{"id":"q01","question":"What is Qdrant?","expected_points":["vector database","embeddings"]}
+{"id":"q02","question":"How does Qdrant store data?","expected_points":["vectors","payload"]}
+{"id":"q03","question":"What is a collection in Qdrant?","expected_points":["collection","vectors"]}
+{"id":"q04","question":"How is similarity measured in Qdrant?","expected_points":["cosine","distance"]}
+{"id":"q05","question":"What is Qdrant used for?","expected_points":["semantic search","recommendation"]}
