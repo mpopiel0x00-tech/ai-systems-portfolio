@@ -8,8 +8,8 @@ RAW_PATH = Path("data/raw/source1.txt")
 OUT_PATH = Path("data/processed/chunks.jsonl")
 
 DOC_ID = "source1"
-TARGET_MIN = 400
-TARGET_MAX = 800
+TARGET_MIN = 700
+TARGET_MAX = 1100
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="ignore")

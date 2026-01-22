@@ -56,12 +56,13 @@ def main():
 
         answer = data["answer"]["answer"]
         retrieved_ids = data["answer"]["retrieved_chunk_ids"]
+        citations = data["answer"].get("citations", [])
 
         retrieved_texts = [chunk_map.get(cid, "") for cid in retrieved_ids]
         cov = context_hit(retrieved_texts, t["expected_points"])
         coverage_hits.append(cov)
 
-        cc = citation_count(answer)
+        cc = len(citations)
         citation_counts.append(cc)
 
         result = {
@@ -73,7 +74,8 @@ def main():
             "latency_ms": round(latency_ms, 1),
             "format_valid": format_valid(answer),
             "citation_count": cc,
-            "citation_coverage": citation_coverage(answer),
+            "citation_coverage": (len(citations) > 0),
+            "citations": citations,
             "context_hit": cov,
             "retrieved_text_preview": [rt[:120] for rt in retrieved_texts],
         }

@@ -49,7 +49,26 @@ Format:
 - retrieved_chunk_ids: ['source1__0004', 'source1__0080', 'source1__0048', 'source1__0007', 'source1__0058']
 - note: retrieval zwrócił chunki o innym temacie
 
-## Next improvements (3)
-1) Improve expected_points quality (make them appear in retrieved context)
-2) Tune retrieval params (top_k, chunk size) and rerun eval
-3) Return retrieved chunk texts in /ask response (for better debugging)
+## Improvements
+- Using prompt v1 increases avg_citation_count from 0 to 1.35, but increases latency.
+- Increasing chunk_size on v2 reduced avg_latency_ms
+- Citation metric fix (v2)
+    - In v2, citations are returned as a structured list field: `answer.citations`.
+    - We updated eval to compute `citation_count = len(citations)` instead of regex-counting `[chunk_id]` inside the answer text (v1 behavior).
+    - Result: avg_citation_count became meaningful again (now ~1.45 on 20 tests).
+
+## Day 3 update
+- prompt_version: v2
+- retrieval bug fixed: YES (ask_query used wrong question earlier)
+- EVAL (20 tests): avg_latency_ms=6226, avg_citation_count=1.45, context_hit_rate=0.45
+- bucket distribution (20): 
+    - OK: 9
+    - WRONG_CONTEXT: 11
+    - NO_RETRIEVAL: 0
+    - UNGROUNDED: 0
+    - FORMAT_FAIL: 0
+- main issue now: WRONG_CONTEXT (retrieval/expected_points)
+- next 3 actions:
+  1) Improve expected_points to match doc wording (reduce false WRONG_CONTEXT)
+  2) Add overlap chunking OR sentence-based chunking (one change at a time)
+  3) Add simple rerank: increase top_k to 15 then select 5 by keyword match (cheap)

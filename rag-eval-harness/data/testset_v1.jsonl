@@ -3,3 +3,18 @@
 {"id":"q03","question":"What is a collection in Qdrant?","expected_points":["collection","vectors"]}
 {"id":"q04","question":"How is similarity measured in Qdrant?","expected_points":["cosine","distance"]}
 {"id":"q05","question":"What is Qdrant used for?","expected_points":["semantic search","recommendation"]}
+{"id":"q06","question":"What algorithm does Qdrant use for similarity search?","expected_points":["HNSW","approximate nearest neighbor search"]}
+{"id":"q07","question":"What are points in Qdrant composed of?","expected_points":["vector","payload"]}
+{"id":"q08","question":"What can payload in Qdrant store?","expected_points":["metadata","filters"]}
+{"id":"q09","question":"Why use a vector database like Qdrant?","expected_points":["semantic search","embeddings based retrieval"]}
+{"id":"q10","question":"How do you choose a distance metric in Qdrant?","expected_points":["cosine","Euclidean or dot"]}
+{"id":"q11","question":"How can you filter search results in Qdrant?","expected_points":["payload filter","field conditions"]}
+{"id":"q12","question":"What is the purpose of a payload index?","expected_points":["faster filtering","index on payload field"]}
+{"id":"q13","question":"What languages or APIs does Qdrant support?","expected_points":["REST API","Python client (others)"]}
+{"id":"q14","question":"How does Qdrant handle updates to vectors?","expected_points":["upsert","reindex existing ID"]}
+{"id":"q15","question":"What does similarity search return?","expected_points":["nearest neighbors","score or distance"]}
+{"id":"q16","question":"What type of database is Qdrant categorized as?","expected_points":["open-source","vector database"]}
+{"id":"q17","question":"Can Qdrant be run embedded in a script?","expected_points":["embedded mode","in-memory or file-based"]}
+{"id":"q18","question":"What are common use cases for Qdrant?","expected_points":["RAG","recommendations"]}
+{"id":"q19","question":"What must all vectors in a Qdrant collection share?","expected_points":["same dimension","same metric"]}
+{"id":"q20","question":"How does filtering improve search?","expected_points":["refine results","business constraints"]}

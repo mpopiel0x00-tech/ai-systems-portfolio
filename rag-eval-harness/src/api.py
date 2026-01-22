@@ -19,3 +19,4 @@ def ask(req: AskRequest):
         "query": req.query,
         "answer": answer,
     }
+

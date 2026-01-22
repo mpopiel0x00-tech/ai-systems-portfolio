@@ -14,7 +14,8 @@ from src.config import (
     QDRANT_COLLECTION,
 )
 
-PROMPT_PATH = Path("prompts/rag_answer_v1.txt")
+PROMPT_PATH = Path("prompts/rag_answer_v2.txt")
+PROMPT_VERSION = "v2"
 RUNS_PATH = Path("logs/runs.jsonl")
 
 TOP_K = 5
@@ -36,8 +37,6 @@ def ask_query(question: str) -> dict:
     if not OPENAI_API_KEY:
         raise RuntimeError("Missing OPENAI_API_KEY")
 
-    question = "What is Qdrant and how does it store vectors?"
-
     client = QdrantClient(url=QDRANT_URL)
     openai = OpenAI(api_key=OPENAI_API_KEY)
 
@@ -45,10 +44,13 @@ def ask_query(question: str) -> dict:
     t0 = time.time()
 
     # embed query
+    query_for_embedding = f"Question: {question}\nTask: retrieve the most relevant passage about this specific question from the document."
     q_emb = openai.embeddings.create(
         model=OPENAI_EMBED_MODEL,
-        input=question
+        input=query_for_embedding
     ).data[0].embedding
+
+    print("DEBUG emb_head =", [round(x, 6) for x in q_emb[:5]])
 
     # search
     res = client.query_points(
@@ -62,10 +64,9 @@ def ask_query(question: str) -> dict:
     retrieved_ids = [p.payload["chunk_id"] for p in hits]
     context = build_context(hits)
 
-    prompt = PROMPT_PATH.read_text(encoding="utf-8").format(
-        context=context,
-        question=question,
-    )
+    prompt_template = PROMPT_PATH.read_text(encoding="utf-8")
+    prompt = prompt_template.replace("{context}", context).replace("{question}", question)
+
 
     # generate answer
     resp = openai.chat.completions.create(
@@ -75,6 +76,20 @@ def ask_query(question: str) -> dict:
     )
 
     answer = resp.choices[0].message.content
+
+    parsed = None
+    try:
+        parsed = json.loads(answer)
+    except Exception:
+        parsed = {"answer": answer, "citations": [], "confidence": 0}
+
+    # wymuś zgodny output dla API
+    answer_obj = {
+        "answer": parsed.get("answer", ""),
+        "citations": parsed.get("citations", []),
+        "confidence": parsed.get("confidence", 0),
+    }
+
 
     t1 = time.time()
 
@@ -87,15 +102,19 @@ def ask_query(question: str) -> dict:
         "retrieved_chunk_ids": retrieved_ids,
         "answer": answer,
         "elapsed_sec": round(t1 - t0, 3),
+        "prompt_version": PROMPT_VERSION,
     }
 
     append_run(run)
 
     return {
-        "answer": answer,
+        "answer": answer_obj["answer"],
+        "citations": answer_obj["citations"],
+        "confidence": answer_obj["confidence"],
         "retrieved_chunk_ids": retrieved_ids,
         "elapsed_sec": round(t1 - t0, 3),
     }
+
 
 if __name__ == "__main__":
     res = ask_query("What is Qdrant and how does it store vectors?")
