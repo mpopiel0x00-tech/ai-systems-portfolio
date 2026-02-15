@@ -18,3 +18,13 @@
 {"id":"q18","question":"What are common use cases for Qdrant?","expected_points":["RAG","recommendations"]}
 {"id":"q19","question":"What must all vectors in a Qdrant collection share?","expected_points":["same dimension","same metric"]}
 {"id":"q20","question":"How does filtering improve search?","expected_points":["refine results","business constraints"]}
+{"id":"q21","question":"What is the HNSW algorithm used for in Qdrant?","expected_points":["efficient search","approximate nearest neighbors"]}
+{"id":"q22","question":"What formats can payload data take in Qdrant?","expected_points":["key-value pairs","JSON"]}
+{"id":"q23","question":"How does Qdrant ensure fast search performance?","expected_points":["HNSW index","optimized data structures"]}
+{"id":"q24","question":"What is the significance of vector dimensionality in Qdrant?","expected_points":["search accuracy","storage requirements"]}
+{"id":"q25","question":"How can you integrate Qdrant with machine learning models?","expected_points":["store embeddings","semantic search"]}
+{"id":"q26","question":"What is the role of embeddings in Qdrant?","expected_points":["vector representation","semantic meaning"]}
+{"id":"q27","question":"How does Qdrant handle large datasets?","expected_points":["scalability","efficient indexing"]}
+{"id":"q28","question":"What types of applications benefit from using Qdrant?","expected_points":["search engines","recommendation systems"]}
+{"id":"q29","question":"How do you create a collection in Qdrant?","expected_points":["API call","define vector size and metric"]}
+{"id":"q30","question":"What is the advantage of using approximate nearest neighbor search?","expected_points":["speed","scalability"]}
